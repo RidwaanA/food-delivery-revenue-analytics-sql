@@ -2,12 +2,12 @@
 
 # Project Overview
 
-Designed a MySQL-based analytics pipeline to support revenue tracking and performance analysis for a food delivery platform operating across 98 cities in 14 countries.
+Designed a MySQL-based analytics pipeline to support revenue tracking and performance analysis for a food delivery platform (Great Eats) operating across 98 cities in 14 countries.
 
 The solution enables standardized revenue computation, weekly KPI tracking, and business-ready insights for cross-functional teams.
 
 # Business Context
-Great Eats operates a food delivery platform across ~100 cities in 14 countries. Following a revenue decline, stakeholders across Marketing, Operations, and Finance required a centralized data system to analyze performance trends and identify root causes.
+Following a revenue decline, stakeholders across Marketing, Operations, and Finance required a centralized data system to analyze performance trends and identify root causes.
 
 # Data Overview
 - 130K+ orders, 13K+ customers, 899 restaurants
