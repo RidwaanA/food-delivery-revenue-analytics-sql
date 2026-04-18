@@ -1,26 +1,27 @@
 # Revenue Analytics Data Pipeline for a Multi-City Food Delivery Platform
 
-# Project Overview
+## Project Overview
 
 Designed a MySQL-based analytics pipeline to support revenue tracking and performance analysis for a food delivery platform (Great Eats) operating across 98 cities in 14 countries.
 
 The solution enables standardized revenue computation, weekly KPI tracking, and business-ready insights for cross-functional teams.
 
-# Business Context
+## Business Context
 Following a revenue decline, stakeholders across Marketing, Operations, and Finance required a centralized data system to analyze performance trends and identify root causes.
 
-# Data Overview
+## Data Overview
 - 130K+ orders, 13K+ customers, 899 restaurants
 - Coverage across 98 cities / 14 countries
 - Key data points: orders, customers, delivery performance, pricing, and ratings
 
-# Tools & Technologies
+## Tools & Technologies
 - MySQL
 - SQL (CTEs, window functions, aggregations, CASE logic)
 - Custom revenue function: calcRevenue()
 
-# SQL Highlights
-1. Week-over-Week Revenue Trend
+## SQL Highlights
+```sql
+// Week-over-Week Revenue Trend
 
 with WkoWk as (
 	select
@@ -29,14 +30,16 @@ with WkoWk as (
 	from gl_eats_del_ord_v
 	group by 1
     )
+
 select
 	WEEK_NUMBER,
     REVENUE,
     lag(REVENUE) over(order by WEEK_NUMBER) as PREVIOUS_REVENUE,
     ((REVENUE-lag(REVENUE) over(order by WEEK_NUMBER)) / lag(REVENUE) over(order by WEEK_NUMBER) * 100) as 'WEEK_OVER_WEEK_REVENUE(%)'
 from WkoWk;
-
-2. Customer Cancellation Rate
+```
+```sql
+// Customer Cancellation Rate
 
 select
 	CUSTOMER_ID,
@@ -46,8 +49,9 @@ select
 from gl_eats_del_ord_v
 group by 1
 order by 4 desc;
-
-3. Discount vs Customer Rating Analysis
+```
+```sql
+// Discount vs Customer Rating Analysis
 
 with CustDiscRating as (
 	select
@@ -65,6 +69,7 @@ with CustDiscRating as (
 		end as RATING_BUCKET
 	from gl_eats_del_ord_v
     )
+
 select
 	DISCOUNT_BUCKET,
     RATING_BUCKET,
@@ -73,8 +78,9 @@ select
 from CustDiscRating
 where DISCOUNT_BUCKET = 'HIGH'
 group by 1,2;
+```
 
-# Key Insights
+## Key Insights
 - Revenue declined consistently week-over-week (₦5.22M → ₦2.19M), despite highest activity in Week 1
 - Order volume followed the same downward trend, indicating demand drop rather than pricing fluctuation
 - Average order cost remained stable (~124), confirming revenue decline was volume-driven
@@ -85,18 +91,17 @@ group by 1,2;
 - Restaurant rating has minimal impact on cancellations (~5% across tiers), suggesting operational issues instead
 - Workforce imbalance identified — a small group of delivery agents (14) are overutilized
 
-# Recommendations
+## Recommendations
 - Investigate and address drivers of declining order volume (retention, competition, seasonality)
 - Prioritize cancellation reduction, especially in high-risk cities
 - Shift from blanket discounts to targeted incentives
 - Focus growth efforts on top-performing markets while fixing underperforming locations
 - Implement city-level performance monitoring dashboards
 
-# Outcome
+## Outcome
+✅ Delivered a scalable SQL analytics solution that uncovered key revenue drivers, identified operational inefficiencies, and provided **actionable insights to support business recovery.**
 
-Delivered a scalable SQL analytics solution that uncovered key revenue drivers, identified operational inefficiencies, and provided **actionable insights to support business recovery.**
-
-# Next Steps
+## Next Steps
 - Build dashboards (Tableau/Power BI)
 - Add customer segmentation
 - Develop demand forecasting models
